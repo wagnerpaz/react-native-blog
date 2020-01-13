@@ -5,9 +5,12 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "db": "json-server -w db.json -p 3000",
+    "tunnel": "ngrok http 3000"
   },
   "dependencies": {
+    "axios": "^0.19.1",
     "expo": "~36.0.0",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
@@ -19,8 +22,10 @@
     "react-navigation-stack": "1.10.3"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0",
     "babel-preset-expo": "~8.0.0",
-    "@babel/core": "^7.0.0"
+    "json-server": "^0.15.1",
+    "ngrok": "^3.2.7"
   },
   "private": true
 }
