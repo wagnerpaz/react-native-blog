@@ -1,22 +1,27 @@
 import React, {useContext} from 'react';
-import {View, Text, StyleSheet, FlatList, Button} from 'react-native';
+import {View, Text, StyleSheet, FlatList, Button, TouchableOpacity} from 'react-native';
+import {Feather} from '@expo/vector-icons';
 
 import {Context as BlogContext} from '../context/BlogContext';
 
-const IndexScreen = () => {
-    const {state: blogPosts, addBlogPost} = useContext(BlogContext);
+const IndexScreen = ({navigation}) => {
+    const {state: blogPosts, addBlogPost, deleteBlogPost} = useContext(BlogContext);
 
     return (
         <View>
-            <Text>Index Screen</Text>
-            <Button title="Add Blog Post" onPress={addBlogPost}
-            />
             <FlatList
                 data={blogPosts}
                 keyExtractor={item => item.title}
                 renderItem={({item}) => {
                     return (
-                        <Text>{item.title}</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate('Show', {id: item.id})}>
+                            <View style={styles.row}>
+                                <Text styles={styles.title}>{item.title} - {item.id}</Text>
+                                <TouchableOpacity onPress={() => deleteBlogPost(item.id)}>
+                                    <Feather style={styles.icon} name="trash"/>
+                                </TouchableOpacity>
+                            </View>
+                        </TouchableOpacity>
                     );
                 }}
             />
@@ -24,6 +29,31 @@ const IndexScreen = () => {
     );
 };
 
-const styles = StyleSheet.create({});
+IndexScreen.navigationOptions = ({navigation}) => {
+    return {
+        headerRight: (
+            <TouchableOpacity onPress={() => navigation.navigate('Create')}>
+                <Feather name="plus" size={30}/>
+            </TouchableOpacity>
+        )
+    };
+};
+
+const styles = StyleSheet.create({
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 10,
+        paddingVertical: 20,
+        borderBottomWidth: 1,
+        borderColor: 'gray',
+    },
+    title: {
+        fontSize: 18,
+    },
+    icon: {
+        fontSize: 24,
+    }
+});
 
 export default IndexScreen;
